@@ -16,7 +16,7 @@ const YELP_API_KEY =
 
 export default function Home({ navigation }) {
   const [restaurantData, setRestaurantData] = useState(localRestaurants);
-  const [city, setCity] = useState("Chicago");
+  const [city, setCity] = useState("San Francisco");
   const [activeTab, setActiveTab] = useState("Delivery");
 
   const getRestaurantsFromYelp = async () => {
@@ -56,6 +56,7 @@ export default function Home({ navigation }) {
           />
         </ScrollView>
         <Divider width={1} />
+
         <BottomTabs />
       </SafeAreaView>
     </>

@@ -1,6 +1,8 @@
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import React from "react";
-import { Divider } from "react-native-elements";
+import { CheckBox, Divider } from "react-native-elements";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { useDispatch, useSelector } from "react-redux";
 
 const foods = [
   {
@@ -8,55 +10,87 @@ const foods = [
     description: "Lorem Ipsum is simply dummy text ",
     price: "$13.5",
     image:
-      "https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg",
+      "https://contenthub.kraftheinz.com/api/public/content/5a31c252af944dc8aa2bee5b4cdae6f4?v=81dbeb44&t=w1004",
   },
   {
-    title: "Lasanga",
+    title: "Lasanga1",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     price: "$13.5",
     image:
-      "https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg",
+      "https://contenthub.kraftheinz.com/api/public/content/5a31c252af944dc8aa2bee5b4cdae6f4?v=81dbeb44&t=w1004",
   },
   {
-    title: "Lasanga",
+    title: "Lasanga2",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     price: "$13.5",
     image:
-      "https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg",
+      "https://contenthub.kraftheinz.com/api/public/content/5a31c252af944dc8aa2bee5b4cdae6f4?v=81dbeb44&t=w1004",
   },
   {
-    title: "Lasanga",
+    title: "Lasanga3",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     price: "$13.5",
     image:
-      "https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg",
+      "https://contenthub.kraftheinz.com/api/public/content/5a31c252af944dc8aa2bee5b4cdae6f4?v=81dbeb44&t=w1004",
   },
   {
-    title: "Lasanga",
+    title: "Lasanga4",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     price: "$13.5",
     image:
-      "https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg",
+      "https://contenthub.kraftheinz.com/api/public/content/5a31c252af944dc8aa2bee5b4cdae6f4?v=81dbeb44&t=w1004",
   },
   {
-    title: "Lasanga",
+    title: "Lasanga5",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     price: "$13.5",
     image:
-      "https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg",
+      "https://contenthub.kraftheinz.com/api/public/content/5a31c252af944dc8aa2bee5b4cdae6f4?v=81dbeb44&t=w1004",
   },
   {
-    title: "Lasanga",
+    title: "Lasanga6",
     description:
       "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
     price: "$13.5",
     image:
-      "https://www.modernhoney.com/wp-content/uploads/2019/08/Classic-Lasagna-14-scaled.jpg",
+      "https://contenthub.kraftheinz.com/api/public/content/5a31c252af944dc8aa2bee5b4cdae6f4?v=81dbeb44&t=w1004",
+  },
+  {
+    title: "Lasanga7",
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    price: "$13.5",
+    image:
+      "https://contenthub.kraftheinz.com/api/public/content/5a31c252af944dc8aa2bee5b4cdae6f4?v=81dbeb44&t=w1004",
+  },
+  {
+    title: "Lasanga8",
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    price: "$13.5",
+    image:
+      "https://contenthub.kraftheinz.com/api/public/content/5a31c252af944dc8aa2bee5b4cdae6f4?v=81dbeb44&t=w1004",
+  },
+  {
+    title: "Lasanga9",
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    price: "$13.5",
+    image:
+      "https://contenthub.kraftheinz.com/api/public/content/5a31c252af944dc8aa2bee5b4cdae6f4?v=81dbeb44&t=w1004",
+  },
+  {
+    title: "Lasanga10",
+    description:
+      "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+    price: "$13.5",
+    image:
+      "https://contenthub.kraftheinz.com/api/public/content/5a31c252af944dc8aa2bee5b4cdae6f4?v=81dbeb44&t=w1004",
   },
 ];
 
@@ -72,18 +106,41 @@ const style = StyleSheet.create({
   },
 });
 
-export default function MenuItems() {
+export default function MenuItems({ resturantName }) {
+  const dispatch = useDispatch();
+  const selectItem = (item, checkBoxValue) =>
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: {
+        ...item,
+        resturantName: resturantName,
+        checkBoxValue: checkBoxValue,
+      },
+    });
+
+  const cartItems = useSelector(
+    (state) => state.cartReducer.selectedItems.items
+  );
+  const isFoodInCart = (food, cartItems) =>
+    Boolean(cartItems.find((item) => item.title === food.title));
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {foods.map((food, index) => (
         <View key={index}>
           <View style={style.menuItemsStyle}>
+            <BouncyCheckbox
+              iconStyle={{ borderColor: "gray", borderRadius: 0 }}
+              fillColor="green"
+              isChecked={isFoodInCart(food, cartItems)}
+              onPress={(checkBoxValue) => selectItem(food, checkBoxValue)}
+            />
             <FoodInfo food={food} />
             <FoodImage food={food} />
           </View>
           <Divider
             width={0.5}
-            orientation="vertical"
+            orientation="horizontal"
             style={{ marginHorizontal: 20 }}
           />
         </View>
