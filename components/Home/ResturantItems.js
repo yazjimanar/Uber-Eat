@@ -35,13 +35,13 @@ export const localRestaurants = [
 export default function ResturantItems({ navigation, ...props }) {
   return (
     <>
-      {props.resturantData.map((resturant, index) => (
+      {props.restaurantData.map((resturant, index) => (
         <TouchableOpacity
           key={index}
           activeOpacity={1}
           style={{ marginBottom: 5 }}
           onPress={() => {
-            navigation.navigate("ResturatDetails", {
+            navigation.navigate("RestaurantDetail", {
               name: resturant.name,
               image: resturant.image_url,
               price: resturant.price,
